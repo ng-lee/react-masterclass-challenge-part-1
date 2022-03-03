@@ -13,6 +13,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
   margin-bottom: 40px;
 `;
 
@@ -31,9 +32,17 @@ const Coin = styled.li`
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
+  display: flex;
+  align-items: center;
   &:hover {
     color: ${(props) => props.theme.accentColor};
   }
+`;
+
+const CoinIcon = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
 `;
 
 interface ICoin {
@@ -67,8 +76,13 @@ function Coins() {
       ) : (
         <CoinsList>
           {coins.map((coin) => (
-            <Link to={`/${coin.id}`}>
-              <Coin key={coin.id}>{coin.name} &rarr;</Coin>
+            <Link to={`/${coin.id}`} state={{ name: coin.name }}>
+              <Coin key={coin.id}>
+                <CoinIcon
+                  src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                />
+                {coin.name} &rarr;
+              </Coin>
             </Link>
           ))}
         </CoinsList>
