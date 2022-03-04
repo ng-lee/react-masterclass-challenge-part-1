@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import {
@@ -13,12 +12,6 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
-
-const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
 
 const Header = styled.header`
   height: 10vh;
@@ -37,10 +30,16 @@ const Title = styled.h1`
 
 const Overview = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 10px;
+`;
+
+const OverviewColumn = styled.div`
+  width: 33%;
+  display: flex;
+  justify-content: center;
 `;
 
 const OverviewItem = styled.div`
@@ -109,7 +108,7 @@ interface IInfoData {
   last_data_at: string;
 }
 
-interface IPriceData {
+export interface IPriceData {
   id: string;
   name: string;
   symbol: string;
@@ -179,7 +178,7 @@ function Coin() {
     })();
   }, []); */
   return (
-    <Container>
+    <>
       <Helmet>
         <title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -195,29 +194,39 @@ function Coin() {
       ) : (
         <>
           <Overview>
-            <OverviewItem>
-              <span>Rank</span>
-              <span>{infoData?.rank}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Symbol</span>
-              <span>${infoData?.symbol}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Price</span>
-              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
-            </OverviewItem>
+            <OverviewColumn>
+              <OverviewItem>
+                <span>Rank</span>
+                <span>{infoData?.rank}</span>
+              </OverviewItem>
+            </OverviewColumn>
+            <OverviewColumn>
+              <OverviewItem>
+                <span>Symbol</span>
+                <span>${infoData?.symbol}</span>
+              </OverviewItem>
+            </OverviewColumn>
+            <OverviewColumn>
+              <OverviewItem>
+                <span>Price</span>
+                <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
+              </OverviewItem>
+            </OverviewColumn>
           </Overview>
           <Description>{infoData?.description}</Description>
           <Overview>
-            <OverviewItem>
-              <span>Total Suply</span>
-              <span>{tickersData?.total_supply}</span>
-            </OverviewItem>
-            <OverviewItem>
-              <span>Max Supply</span>
-              <span>{tickersData?.max_supply}</span>
-            </OverviewItem>
+            <OverviewColumn>
+              <OverviewItem>
+                <span>Total Suply</span>
+                <span>{tickersData?.total_supply}</span>
+              </OverviewItem>
+            </OverviewColumn>
+            <OverviewColumn>
+              <OverviewItem>
+                <span>Max Supply</span>
+                <span>{tickersData?.max_supply}</span>
+              </OverviewItem>
+            </OverviewColumn>
           </Overview>
 
           <Tabs>
@@ -231,11 +240,14 @@ function Coin() {
 
           <Routes>
             <Route path="chart" element={<Chart coinId={String(coinId)} />} />
-            <Route path="price" element={<Price coinId={String(coinId)} />} />
+            <Route
+              path="price"
+              element={<Price data={tickersData!} coinId={String(coinId)} />}
+            />
           </Routes>
         </>
       )}
-    </Container>
+    </>
   );
 }
 

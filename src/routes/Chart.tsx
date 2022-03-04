@@ -27,11 +27,16 @@ function Chart({ coinId }: IChartProps) {
         "Loading Chart..."
       ) : (
         <ReactApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "price",
-              data: data?.map((price) => price.close),
+              data: data?.map((price) => [
+                price.time_close,
+                price.open,
+                price.high,
+                price.low,
+                price.close,
+              ]),
             },
           ]}
           options={{
@@ -46,10 +51,6 @@ function Chart({ coinId }: IChartProps) {
               },
               background: "transparent",
             },
-            stroke: {
-              curve: "smooth",
-              width: 2,
-            },
             xaxis: {
               axisTicks: {
                 show: false,
@@ -63,18 +64,6 @@ function Chart({ coinId }: IChartProps) {
             yaxis: {
               labels: {
                 show: false,
-              },
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#3498db"],
-              },
-            },
-            colors: ["#27ae60"],
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(5)}`,
               },
             },
           }}
