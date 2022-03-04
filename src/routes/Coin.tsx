@@ -156,7 +156,7 @@ function Coin() {
     ["tickers", coinId],
     () => fetchCoinTickers(coinId)
   );
-  const loading = infoLoading && tickersLoading;
+  const loading = infoLoading || tickersLoading;
 
   /* const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState<IInfoData>();
@@ -221,8 +221,8 @@ function Coin() {
           </Tabs>
 
           <Routes>
-            <Route path="chart" element={<Chart />} />
-            <Route path="price" element={<Price />} />
+            <Route path="chart" element={<Chart coinId={String(coinId)} />} />
+            <Route path="price" element={<Price coinId={String(coinId)} />} />
           </Routes>
         </>
       )}
