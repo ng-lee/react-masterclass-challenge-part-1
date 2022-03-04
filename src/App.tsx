@@ -60,6 +60,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
+  margin-bottom: 40px;
 }
 a {
   text-decoration: none;
