@@ -57,10 +57,24 @@ function Chart({ coinId }: IChartProps) {
               labels: {
                 show: false,
               },
+              type: "datetime",
+              categories: data?.map((price) => price.time_close),
             },
             yaxis: {
               labels: {
                 show: false,
+              },
+            },
+            fill: {
+              type: "gradient",
+              gradient: {
+                gradientToColors: ["#3498db"],
+              },
+            },
+            colors: ["#27ae60"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$${value.toFixed(5)}`,
               },
             },
           }}
